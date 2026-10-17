@@ -1,0 +1,10 @@
+{
+    "name": "streetwise",
+    "private": true,
+    "workspaces": ["apps/*", "packages/*"],
+    "scripts": {
+      "dev": "npm run dev -w @streetwise/web",
+      "build": "npm run build -w @streetwise/web",
+      "lint": "npm run lint -w @streetwise/web"
+    }
+  }
