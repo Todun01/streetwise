@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
+/* ---- Brand palette (sampled from the logo). Usable as bg-gold-500, text-cream-100, etc. ---- */
+@theme {
+  --color-gold-400: #fcbc2c;
+  --color-gold-500: #f5ad1d; /* the pin */
+  --color-gold-600: #d98f0b;
+  --color-road-gold: #a06b0c; /* the matte road stripes */
+
+  --color-forest-950: #091b11;
+  --color-forest-900: #0b1e14; /* logo background */
+  --color-forest-800: #112519;
+  --color-forest-700: #163324;
+  --color-forest-600: #1d5a3b;
+
+  --color-cream-50: #fcf4e4;
+  --color-cream-100: #f6efdf; /* wordmark */
+  --color-cream-200: #ece4d4;
+
+  --color-asphalt: #0e1010; /* the road */
+}
+
+/* ---- Semantic colors: light mode ---- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light dark;
+  --background: #f6efdf;
+  --surface: #fffaf0;
+  --foreground: #0b1e14;
+  --muted: #5a6b5f;
+  --border: #ddd3be;
+  --primary: #f5ad1d;
+  --primary-hover: #d98f0b;
+  --on-primary: #0b1e14; /* dark green text on gold */
+  --accent: #1d5a3b;
+  --danger: #b91c1c;
+  --success: #15803d;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* ---- Semantic colors: dark mode (the logo's look) ---- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1e14;
+    --surface: #112519;
+    --foreground: #f6efdf;
+    --muted: #9db0a2;
+    --border: #24402f;
+    --primary: #f5ad1d;
+    --primary-hover: #fcbc2c;
+    --on-primary: #0b1e14;
+    --accent: #f5ad1d;
+    --danger: #f87171;
+    --success: #4ade80;
   }
+}
+
+/* Turns the variables above into Tailwind classes: bg-background, text-muted, bg-primary... */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
 }

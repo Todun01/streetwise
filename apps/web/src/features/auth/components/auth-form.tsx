@@ -64,7 +64,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
   }
 
   const input =
-    "w-full rounded-lg border border-neutral-300 px-3 py-2 text-base dark:border-neutral-700 dark:bg-neutral-900";
+  "w-full rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-primary/40";
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
