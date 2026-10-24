@@ -27,3 +27,9 @@ export function Logo({ className = "h-12 w-auto" }: { className?: string }) {
     </>
   );
 }
+/** The cream-on-dark wordmark only, for surfaces that stay dark in both themes (the hero). */
+export function LogoOnDark({ className = "h-12 w-auto" }: { className?: string }) {
+  return (
+    <Image src="/brand/wordmark-on-dark.png" alt="Streetwise" width={WIDTH} height={HEIGHT} className={className} />
+  );
+}

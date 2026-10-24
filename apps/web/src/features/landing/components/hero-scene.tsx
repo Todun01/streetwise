@@ -50,8 +50,21 @@ function BeadStrand({ x, seed = 0 }: { x: number; seed?: number }) {
         const colour = BEAD_COLORS[(i + seed) % BEAD_COLORS.length];
         return (
           <g key={i}>
-            <circle cx={x + bow} cy={y} r={10.5} fill={colour} stroke={INK} strokeWidth="1.6" />
-            <circle cx={x + bow - 3} cy={y - 3.5} r={2.6} fill="#fff" opacity=".5" />
+            <circle
+              cx={x + bow}
+              cy={y}
+              r={10.5}
+              fill={colour}
+              stroke={INK}
+              strokeWidth="1.6"
+            />
+            <circle
+              cx={x + bow - 3}
+              cy={y - 3.5}
+              r={2.6}
+              fill="#fff"
+              opacity=".5"
+            />
           </g>
         );
       })}
@@ -263,11 +276,26 @@ export function HeroScene({ className = "" }: { className?: string }) {
           <stop offset="1" stopColor="#4c6659" />
         </radialGradient>
         {/* ankara-style print for the sleeves */}
-        <pattern id="hs-ankara" width="64" height="64" patternUnits="userSpaceOnUse">
+        <pattern
+          id="hs-ankara"
+          width="64"
+          height="64"
+          patternUnits="userSpaceOnUse"
+        >
           <rect width="64" height="64" fill="#0e1b14" />
           <path d="M0 0 H30 A30 30 0 0 1 0 30 Z" fill="#a06b0c" opacity=".8" />
-          <path d="M64 64 H34 A30 30 0 0 1 64 34 Z" fill="#a06b0c" opacity=".8" />
-          <path d="M32 12 L52 32 L32 52 L12 32 Z" fill="none" stroke="#f5ad1d" strokeWidth="3" opacity=".8" />
+          <path
+            d="M64 64 H34 A30 30 0 0 1 64 34 Z"
+            fill="#a06b0c"
+            opacity=".8"
+          />
+          <path
+            d="M32 12 L52 32 L32 52 L12 32 Z"
+            fill="none"
+            stroke="#f5ad1d"
+            strokeWidth="3"
+            opacity=".8"
+          />
           <circle cx="32" cy="32" r="5" fill="#f5ad1d" opacity=".75" />
         </pattern>
         {/* fades the bottom of the lower hand into the dark, so the arm never runs behind the text below */}
@@ -275,8 +303,21 @@ export function HeroScene({ className = "" }: { className?: string }) {
           <stop offset=".9" stopColor="#fff" />
           <stop offset="1" stopColor="#000" />
         </linearGradient>
-        <mask id="hs-bottomFade" maskUnits="userSpaceOnUse" x="-1000" y="-400" width="3000" height="1100">
-          <rect x="-1000" y="-400" width="3000" height="1100" fill="url(#hs-bottomFadeGradient)" />
+        <mask
+          id="hs-bottomFade"
+          maskUnits="userSpaceOnUse"
+          x="-1000"
+          y="-400"
+          width="3000"
+          height="1100"
+        >
+          <rect
+            x="-1000"
+            y="-400"
+            width="3000"
+            height="1100"
+            fill="url(#hs-bottomFadeGradient)"
+          />
         </mask>
       </defs>
 
@@ -288,7 +329,14 @@ export function HeroScene({ className = "" }: { className?: string }) {
       {/* 2. the hand under the tray + the tray (fade in first) */}
       <g className="hs-stage" mask="url(#hs-bottomFade)">
         <g transform={ART}>
-          <ellipse cx="562" cy="692" rx="320" ry="20" fill="#000" opacity=".3" />
+          <ellipse
+            cx="562"
+            cy="692"
+            rx="320"
+            ry="20"
+            fill="#000"
+            opacity=".3"
+          />
 
           <g id="hand-bottom">
             {/* arm + palm: outline pass, then fill pass, so they read as one shape */}
@@ -362,7 +410,14 @@ export function HeroScene({ className = "" }: { className?: string }) {
                 stroke={EDGE}
                 strokeWidth="5"
               />
-              <rect x="-172" y="-76" width="12" height="152" fill="#f5ad1d" opacity=".85" />
+              <rect
+                x="-172"
+                y="-76"
+                width="12"
+                height="152"
+                fill="#f5ad1d"
+                opacity=".85"
+              />
             </g>
 
             <Bracelets transform={BOTTOM_ARM} />
@@ -370,11 +425,26 @@ export function HeroScene({ className = "" }: { className?: string }) {
 
           <g id="tray">
             {/* underside of the dish */}
-            <path d="M236 640 C294 670 420 678 562 678 C704 678 830 670 888 640 Z" fill="url(#hs-trayRim)" />
+            <path
+              d="M236 640 C294 670 420 678 562 678 C704 678 830 670 888 640 Z"
+              fill="url(#hs-trayRim)"
+            />
             {/* flat rim */}
-            <ellipse cx="562" cy="632" rx="357" ry="11" fill="url(#hs-trayRim)" />
+            <ellipse
+              cx="562"
+              cy="632"
+              rx="357"
+              ry="11"
+              fill="url(#hs-trayRim)"
+            />
             {/* dish surface */}
-            <ellipse cx="562" cy="634" rx="332" ry="12" fill="url(#hs-trayTop)" />
+            <ellipse
+              cx="562"
+              cy="634"
+              rx="332"
+              ry="12"
+              fill="url(#hs-trayTop)"
+            />
             <ellipse
               cx="562"
               cy="632"
@@ -397,14 +467,15 @@ export function HeroScene({ className = "" }: { className?: string }) {
         </g>
       </g>
 
-      {/* 3. the logo, revealed as the cover lifts. Your transparent wordmark file goes here. */}
+      {/* 3. the food-pin icon, revealed as the cover lifts */}
+      {/* 3. the food-pin icon, revealed as the cover lifts */}
       <g className="hs-logo">
         <image
-          href="/brand/wordmark-on-dark.png"
-          x="80"
-          y="306"
-          width="660"
-          height="150"
+          href="/brand/pin.png"
+          x="318"
+          y="318"
+          width="164"
+          height="164"
           preserveAspectRatio="xMidYMid meet"
         />
       </g>
@@ -417,7 +488,13 @@ export function HeroScene({ className = "" }: { className?: string }) {
               <g transform={ART}>
                 <g id="dome">
                   {/* inside of the cover, seen through the open rim */}
-                  <ellipse cx="562" cy="605" rx="305" ry="31" fill="url(#hs-domeInside)" />
+                  <ellipse
+                    cx="562"
+                    cy="605"
+                    rx="305"
+                    ry="31"
+                    fill="url(#hs-domeInside)"
+                  />
                   {/* shell: the bottom edge is the back of the rim, so the opening reads as a lens */}
                   <path
                     d="M259 605 C259 476 395 372 562 372 C729 372 865 476 865 605 A303 28 0 0 0 259 605 Z"
@@ -474,13 +551,31 @@ export function HeroScene({ className = "" }: { className?: string }) {
                   {/* knob */}
                   <ellipse cx="560" cy="374" rx="24" ry="7" fill="#162b20" />
                   <path d="M546 372 L551 338 H569 L574 372 Z" fill="#6b8577" />
-                  <ellipse cx="560" cy="334" rx="28" ry="11" fill="url(#hs-knobFill)" />
-                  <ellipse cx="552" cy="331" rx="9" ry="3.5" fill="#fff" opacity=".5" />
+                  <ellipse
+                    cx="560"
+                    cy="334"
+                    rx="28"
+                    ry="11"
+                    fill="url(#hs-knobFill)"
+                  />
+                  <ellipse
+                    cx="552"
+                    cy="331"
+                    rx="9"
+                    ry="3.5"
+                    fill="#fff"
+                    opacity=".5"
+                  />
                 </g>
 
                 <g id="hand-top">
                   {/* arm + back of the hand */}
-                  <g fill={EDGE} stroke={EDGE} strokeWidth="7" strokeLinejoin="round">
+                  <g
+                    fill={EDGE}
+                    stroke={EDGE}
+                    strokeWidth="7"
+                    strokeLinejoin="round"
+                  >
                     <path d={HAND_BACK} />
                     <path d={FOREARM_TOP} transform={TOP_ARM} />
                   </g>
@@ -582,7 +677,14 @@ export function HeroScene({ className = "" }: { className?: string }) {
                       stroke={EDGE}
                       strokeWidth="5"
                     />
-                    <rect x="150" y="-76" width="12" height="152" fill="#f5ad1d" opacity=".85" />
+                    <rect
+                      x="150"
+                      y="-76"
+                      width="12"
+                      height="152"
+                      fill="#f5ad1d"
+                      opacity=".85"
+                    />
                   </g>
 
                   <Bracelets transform={TOP_ARM} />

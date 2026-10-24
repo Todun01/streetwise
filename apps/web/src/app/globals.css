@@ -178,50 +178,33 @@ html {
     to { opacity: 0; visibility: hidden; pointer-events: none; }
   }
   
-  /* =====================================================================
-     Hero scene (the dish cover lifts and reveals the logo)
-     The finished state is the default. Animations only apply when the head
-     script has added "anim" to <html> (not for reduced-motion users).
-     ===================================================================== */
-  .hs-lift { transform: translateY(-215px); } /* cover lifted */
-  .hs-glow { opacity: 0.55; }
-  .hs-logo { transform-box: fill-box; transform-origin: center; }
-  
-  html.anim .hs-stage       { animation: hs-fade 700ms ease-out both; }
-  html.anim .hs-glow        { animation: hs-glow 2200ms ease-out 900ms both; }
-  html.anim .hs-lift        { animation: hs-lift 1500ms cubic-bezier(0.22, 0.8, 0.2, 1) 700ms both; }
-  html.anim .hs-float       { animation: hs-float 5s ease-in-out 2.4s infinite; }
-  html.anim .hs-logo        { animation: hs-logo 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1100ms both; }
-  html.anim .hs-steam-wrap  { animation: hs-fade 600ms ease-out 1700ms both; }
-  html.anim .hs-steam       { animation: hs-steam 3200ms ease-in-out 1700ms infinite both; }
-  html.anim .hs-steam-2     { animation-delay: 2300ms; }
-  html.anim .hs-steam-3     { animation-delay: 2900ms; }
-  html.anim .hero-fade      { animation: hero-fade-up 800ms ease-out 1900ms both; }
-  
-  /* while the loading screen is still up, hold everything on its first frame */
-  html.splash-pending .hero-scene *,
-  html.splash-pending .hero-fade {
-    animation-play-state: paused;
-  }
-  
-  @keyframes hs-fade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes hs-glow { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: 0.55; } }
-  @keyframes hs-lift {
-    0%   { transform: translateY(0);     animation-timing-function: ease-in-out; }
-    10%  { transform: translateY(5px);   animation-timing-function: cubic-bezier(0.22, 0.8, 0.2, 1); }
-    100% { transform: translateY(-215px); }
-  }
-  @keyframes hs-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-  @keyframes hs-logo {
-    from { opacity: 0; transform: translateY(28px) scale(0.94); }
-    to   { opacity: 1; transform: none; }
-  }
-  @keyframes hs-steam {
-    0%   { opacity: 0;   transform: translateY(0); }
-    30%  { opacity: 0.5; }
-    100% { opacity: 0;   transform: translateY(-46px); }
-  }
-  @keyframes hero-fade-up {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: none; }
-  }
+ /* =====================================================================
+   Hero scene: driven by scroll (see hero-stage.tsx)
+   hero-stage.tsx updates --lift and --reveal (0 to 1) as you scroll; everything
+   here is just maths on those two numbers.
+   ===================================================================== */
+.hero-stage {
+  --lift: 0.07;  /* how far the cover has risen (starts slightly raised) */
+  --reveal: 0;   /* how visible the pin is */
+}
+/* reduced motion: show the finished scene and never animate */
+@media (prefers-reduced-motion: reduce) {
+  .hero-stage { --lift: 1; --reveal: 1; }
+}
+
+.hs-lift {
+  transform: translate(calc(var(--lift) * 19px), calc(var(--lift) * -205px)) rotate(calc(var(--lift) * 10deg));
+}
+.hs-glow {
+  opacity: calc(var(--reveal) * 0.9);
+}
+.hs-logo {
+  opacity: var(--reveal);
+  transform: translateY(calc((1 - var(--reveal)) * 26px)) scale(calc(0.9 + var(--reveal) * 0.1));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* the "Scroll" hint fades away as soon as the cover starts to move */
+.hero-cue {
+  opacity: clamp(0, calc(1.2 - var(--lift) * 3), 1);
+}

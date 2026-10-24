@@ -1,36 +1,24 @@
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
+import { LogoOnDark } from "@/components/ui/logo";
 import { HeroScene } from "@/features/landing/components/hero-scene";
+import { HeroStage } from "@/features/landing/components/hero-stage";
 
 export function Hero() {
   return (
-    <section
-      id="home"
-      className="relative isolate overflow-hidden bg-forest-900 text-cream-100"
-    >
-      {/* soft light behind the scene */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-[radial-gradient(60%_55%_at_50%_38%,#22432f_0%,#142a1c_72%)]"
-      />
+    <HeroStage>
+      {/* left half: logo, description, buttons */}
+      <div className="flex flex-col justify-center gap-8 px-6 pb-4 pl-16 pt-12 sm:pl-24 lg:gap-12 lg:py-0 lg:pl-40 lg:pr-12">
+        <h1>
+          <LogoOnDark className="h-14 w-auto sm:h-20 lg:h-24" />
+        </h1>
 
-      {/* the road from the logo: asphalt with a double gold centre-line */}
-      <div aria-hidden="true" className="absolute inset-y-0 left-0 w-10 bg-asphalt sm:w-16 lg:w-24">
-        <span className="absolute inset-y-0 left-1/2 ml-[-9px] w-1.5 bg-road-gold" />
-        <span className="absolute inset-y-0 left-1/2 ml-[3px] w-1.5 bg-road-gold" />
-      </div>
-
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 pb-16 pt-8 text-center sm:px-6">
-        <h1 className="sr-only">Streetwise</h1>
-
-        <HeroScene className="w-full max-w-[620px]" />
-
-        <p className="hero-fade -mt-4 max-w-xl text-xl text-cream-200 sm:text-2xl">
-          Discover street food spots that aren&apos;t on any map. Walk there, eat well, and earn
-          real money for the hidden gems you find.
+        <p className="max-w-xl text-xl text-cream-200 sm:text-2xl">
+          Discover street food spots that aren&apos;t on any map. Walk there, eat well, and earn real
+          money for the hidden gems you find.
         </p>
 
-        <div className="hero-fade mt-8 flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap gap-3">
           <Link href="/signup" className={buttonClasses("primary")}>
             Get started
           </Link>
@@ -39,6 +27,11 @@ export function Hero() {
           </Link>
         </div>
       </div>
-    </section>
+
+      {/* right half: the animation, centred in its half. Below the text on phones. */}
+      <div data-hero-scene className="flex items-center justify-center px-4 py-10 lg:py-6">
+        <HeroScene className="h-auto max-h-[calc(100dvh-8rem)] w-full max-w-[640px]" />
+      </div>
+    </HeroStage>
   );
 }
