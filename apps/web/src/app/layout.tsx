@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SplashScreen } from "@/components/layout/splash-screen";
+import { QueryProvider } from "@/lib/query-provider";
+import { SPLASH_INIT_SCRIPT } from "@/lib/splash";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -13,7 +16,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f6efdf" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1e14" },
+    { media: "(prefers-color-scheme: dark)", color: "#142a1c" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -22,9 +25,20 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
+    // suppressHydrationWarning: the head script adds classes to <html> before React starts
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SPLASH_INIT_SCRIPT }} />
+        <noscript>
+          <style>{".splash{display:none}"}</style>
+        </noscript>
+      </head>
+      <body
+        suppressHydrationWarning
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <SplashScreen />
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

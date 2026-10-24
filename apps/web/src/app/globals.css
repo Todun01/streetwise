@@ -84,3 +84,144 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* =====================================================================
+   Loading screen ("the road opens")
+   ===================================================================== */
+   .splash {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow: hidden;
+    background: #142a1c; /* the green revealed behind the road */
+    transition: opacity 350ms ease; /* = FADE_MS in splash-screen.tsx */
+    /* safety net: if JavaScript never finishes, vanish after 8 seconds anyway */
+    animation: splash-failsafe 1ms linear 8s forwards;
+  }
+  .splash[data-phase="closing"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+  html.splash-seen .splash {
+    display: none;
+  }
+  
+  /* behind the road: the pin icon on a soft green glow */
+  .splash-reveal {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(45% 38% at 50% 50%, #22432f 0%, #142a1c 75%);
+  }
+  .splash-icon {
+    width: 112px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .splash[data-phase="opening"] .splash-icon,
+  .splash[data-phase="closing"] .splash-icon {
+    animation: splash-icon-in 600ms cubic-bezier(0.2, 0.9, 0.3, 1.25) 150ms forwards;
+  }
+  
+  /* the road: two halves of asphalt that slide apart */
+  .splash-half {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    overflow: hidden;
+    background: #0e1010;
+    transition: transform 650ms cubic-bezier(0.7, 0, 0.2, 1); /* = OPEN_MS */
+    will-change: transform;
+  }
+  .splash-left {
+    left: 0;
+  }
+  .splash-right {
+    right: 0;
+  }
+  .splash[data-phase="opening"] .splash-left,
+  .splash[data-phase="closing"] .splash-left {
+    transform: translateX(-100%);
+  }
+  .splash[data-phase="opening"] .splash-right,
+  .splash[data-phase="closing"] .splash-right {
+    transform: translateX(100%);
+  }
+  
+  /* the double gold centre-line, dashes rushing past like a road at speed */
+  .splash-line {
+    position: absolute;
+    top: -70px;
+    bottom: 0;
+    width: 6px;
+    background: repeating-linear-gradient(to bottom, #f5ad1d 0 40px, transparent 40px 70px);
+    animation: splash-road 700ms linear infinite;
+  }
+  .splash-left .splash-line {
+    right: 3px;
+  }
+  .splash-right .splash-line {
+    left: 3px;
+  }
+  
+  @keyframes splash-road {
+    from { transform: translateY(0); }
+    to { transform: translateY(70px); } /* exactly one dash + gap, so the loop is seamless */
+  }
+  @keyframes splash-icon-in {
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes splash-failsafe {
+    to { opacity: 0; visibility: hidden; pointer-events: none; }
+  }
+  
+  /* =====================================================================
+     Hero scene (the dish cover lifts and reveals the logo)
+     The finished state is the default. Animations only apply when the head
+     script has added "anim" to <html> (not for reduced-motion users).
+     ===================================================================== */
+  .hs-lift { transform: translateY(-215px); } /* cover lifted */
+  .hs-glow { opacity: 0.55; }
+  .hs-logo { transform-box: fill-box; transform-origin: center; }
+  
+  html.anim .hs-stage       { animation: hs-fade 700ms ease-out both; }
+  html.anim .hs-glow        { animation: hs-glow 2200ms ease-out 900ms both; }
+  html.anim .hs-lift        { animation: hs-lift 1500ms cubic-bezier(0.22, 0.8, 0.2, 1) 700ms both; }
+  html.anim .hs-float       { animation: hs-float 5s ease-in-out 2.4s infinite; }
+  html.anim .hs-logo        { animation: hs-logo 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1100ms both; }
+  html.anim .hs-steam-wrap  { animation: hs-fade 600ms ease-out 1700ms both; }
+  html.anim .hs-steam       { animation: hs-steam 3200ms ease-in-out 1700ms infinite both; }
+  html.anim .hs-steam-2     { animation-delay: 2300ms; }
+  html.anim .hs-steam-3     { animation-delay: 2900ms; }
+  html.anim .hero-fade      { animation: hero-fade-up 800ms ease-out 1900ms both; }
+  
+  /* while the loading screen is still up, hold everything on its first frame */
+  html.splash-pending .hero-scene *,
+  html.splash-pending .hero-fade {
+    animation-play-state: paused;
+  }
+  
+  @keyframes hs-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes hs-glow { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: 0.55; } }
+  @keyframes hs-lift {
+    0%   { transform: translateY(0);     animation-timing-function: ease-in-out; }
+    10%  { transform: translateY(5px);   animation-timing-function: cubic-bezier(0.22, 0.8, 0.2, 1); }
+    100% { transform: translateY(-215px); }
+  }
+  @keyframes hs-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+  @keyframes hs-logo {
+    from { opacity: 0; transform: translateY(28px) scale(0.94); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes hs-steam {
+    0%   { opacity: 0;   transform: translateY(0); }
+    30%  { opacity: 0.5; }
+    100% { opacity: 0;   transform: translateY(-46px); }
+  }
+  @keyframes hero-fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
