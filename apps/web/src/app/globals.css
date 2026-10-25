@@ -178,33 +178,82 @@ html {
     to { opacity: 0; visibility: hidden; pointer-events: none; }
   }
   
- /* =====================================================================
+/* =====================================================================
    Hero scene: driven by scroll (see hero-stage.tsx)
    hero-stage.tsx updates --lift and --reveal (0 to 1) as you scroll; everything
    here is just maths on those two numbers.
    ===================================================================== */
-.hero-stage {
-  --lift: 0.07;  /* how far the cover has risen (starts slightly raised) */
-  --reveal: 0;   /* how visible the pin is */
-}
-/* reduced motion: show the finished scene and never animate */
-@media (prefers-reduced-motion: reduce) {
-  .hero-stage { --lift: 1; --reveal: 1; }
-}
-
-.hs-lift {
-  transform: translate(calc(var(--lift) * 19px), calc(var(--lift) * -205px)) rotate(calc(var(--lift) * 10deg));
-}
-.hs-glow {
-  opacity: calc(var(--reveal) * 0.9);
-}
-.hs-logo {
-  opacity: var(--reveal);
-  transform: translateY(calc((1 - var(--reveal)) * 26px)) scale(calc(0.9 + var(--reveal) * 0.1));
-  transform-box: fill-box;
-  transform-origin: center;
-}
-/* the "Scroll" hint fades away as soon as the cover starts to move */
-.hero-cue {
-  opacity: clamp(0, calc(1.2 - var(--lift) * 3), 1);
-}
+   .hero-stage {
+    --lift: 0.07;  /* how far the cover has risen (starts slightly raised) */
+    --reveal: 0;   /* how visible the pin is */
+  }
+  /* reduced motion: show the finished scene and never animate */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-stage { --lift: 1; --reveal: 1; }
+  }
+  
+  /* the scene is a stack of identical 800 x 760 canvases. It is as wide as its column allows,
+     but never so tall that it would not fit on the screen. */
+  .hero-scene {
+    position: relative;
+    width: min(100%, calc((100dvh - 6rem) * 1.0526));
+    aspect-ratio: 800 / 760;
+  }
+  .hs-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    user-select: none;
+    pointer-events: none;
+    will-change: transform; /* ordinary images move on the graphics chip: no repainting while you scroll */
+  }
+  
+  /* the cover (and the hand holding it) rises, tilts and shrinks, pivoting on the knob.
+     These numbers were measured from your own start and end images. */
+  .hs-cover {
+    transform-origin: 51.25% 30.53%;
+    transform: translate(calc(var(--lift) * 5.483%), calc(var(--lift) * -16.608%))
+      rotate(calc(var(--lift) * 10.01deg)) scale(calc(1 - var(--lift) * 0.1619));
+  }
+  /* the tray and the hand under it sink a little once the weight is gone (20px of 760) */
+  .hs-hand,
+  .hs-tray {
+    transform: translateY(calc(var(--lift) * 2.632%));
+  }
+  
+  /* warm light behind the pin */
+  .hs-glow {
+    position: absolute;
+    left: 6%;
+    width: 88%;
+    top: 30%;
+    height: 48%;
+    background: radial-gradient(closest-side, rgba(245, 173, 29, 0.55), rgba(245, 173, 29, 0));
+    opacity: calc(var(--reveal) * 0.9);
+    pointer-events: none;
+  }
+  
+  /* the pin stands on the tray: it sinks with the tray, and rises into place as it appears */
+  .hs-pin-wrap {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc(var(--lift) * 2.632%));
+    pointer-events: none;
+  }
+  .hs-pin {
+    position: absolute;
+    left: 41.875%;
+    width: 16.25%;
+    height: auto;
+    bottom: 41.84%;
+    opacity: var(--reveal);
+    transform: translateY(calc((1 - var(--reveal)) * 15%)) scale(calc(0.9 + var(--reveal) * 0.1));
+    transform-origin: 50% 100%;
+  }
+  
+  /* the "Scroll" hint fades away as soon as the cover starts to move */
+  .hero-cue {
+    opacity: clamp(0, calc(1.2 - var(--lift) * 3), 1);
+  }

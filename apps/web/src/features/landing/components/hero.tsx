@@ -30,7 +30,7 @@ export function Hero() {
 
       {/* right half: the animation, centred in its half. Below the text on phones. */}
       <div data-hero-scene className="flex items-center justify-center px-4 py-10 lg:py-6">
-        <HeroScene className="h-auto max-h-[calc(100dvh-8rem)] w-full max-w-[640px]" />
+      <HeroScene />
       </div>
     </HeroStage>
   );
