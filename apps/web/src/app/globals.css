@@ -257,3 +257,50 @@ html {
   .hero-cue {
     opacity: clamp(0, calc(1.2 - var(--lift) * 3), 1);
   }
+
+  /* =====================================================================
+   Hero road: a big version of the left strip, behind the scene
+   It fills the height of its grid cell: the whole pinned stage on wide screens,
+   just the scene block on phones.
+   ===================================================================== */
+.hero-road {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(150px, 36%, 340px);
+  background: #0e1010; /* the same asphalt as the left strip */
+  pointer-events: none;
+}
+/* faint lane edges, just inside each side */
+.hero-road::before,
+.hero-road::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(200, 192, 165, 0.27);
+}
+.hero-road::before { left: 14px; }
+.hero-road::after  { right: 14px; }
+
+/* the double gold centre-line */
+.hero-road-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: #a06b0c; /* the same gold as the left strip */
+}
+.hero-road-line:nth-child(1) { left: calc(50% - 13px); }
+.hero-road-line:nth-child(2) { left: calc(50% + 5px); }
+
+/* stacked layout: let the road fade in and out so it doesn't look like a cut-out box */
+@media (max-width: 1023px) {
+  .hero-road {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 86%, transparent 100%);
+  }
+}

@@ -3,6 +3,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { LogoOnDark } from "@/components/ui/logo";
 import { HeroScene } from "@/features/landing/components/hero-scene";
 import { HeroStage } from "@/features/landing/components/hero-stage";
+import { HeroRoad } from "@/features/landing/components/hero-road";
 
 export function Hero() {
   return (
@@ -29,7 +30,8 @@ export function Hero() {
       </div>
 
       {/* right half: the animation, centred in its half. Below the text on phones. */}
-      <div data-hero-scene className="flex items-center justify-center px-4 py-10 lg:py-6">
+      <div data-hero-scene className="relative flex items-center justify-center px-4 py-10 lg:py-6">
+      <HeroRoad />
       <HeroScene />
       </div>
     </HeroStage>
