@@ -59,11 +59,7 @@ export function HeroStage({ children }: { children: ReactNode }) {
       id="home"
       className="hero-stage relative isolate overflow-clip bg-forest-900 text-cream-100 lg:h-[185vh]"
     >
-      {/* the road from the logo: asphalt with a double gold centre-line */}
-      {/* <div aria-hidden="true" className="absolute inset-y-0 left-0 w-10 bg-asphalt sm:w-16 lg:w-24">
-        <span className="absolute inset-y-0 left-1/2 ml-[-9px] w-1.5 bg-road-gold" />
-        <span className="absolute inset-y-0 left-1/2 ml-[3px] w-1.5 bg-road-gold" />
-      </div> */}
+
 
       {/* the stage: sticks below the navbar on wide screens while the section scrolls past */}
       <div className="relative isolate lg:sticky lg:top-16 lg:h-[calc(100dvh-4rem)]">

@@ -8,6 +8,10 @@ import { HeroRoad } from "@/features/landing/components/hero-road";
 export function Hero() {
   return (
     <HeroStage>
+      {/* <div aria-hidden="true" className="absolute inset-y-0 left-0 w-10 sm:w-16 lg:w-24">
+        <span className="absolute inset-y-0 left-1/2 ml-[-9px] w-1.5 bg-road-gold" />
+        <span className="absolute inset-y-0 left-1/2 ml-[3px] w-1.5 bg-road-gold" />
+      </div> */}
       {/* left half: logo, description, buttons */}
       <div className="flex flex-col justify-center gap-8 px-6 pb-4 pl-16 pt-12 sm:pl-24 lg:gap-12 lg:py-0 lg:pl-40 lg:pr-12">
         <h1>
