@@ -306,13 +306,17 @@ html {
 }
 
 /* =====================================================================
-   How it works: phone width + the road line linking the three steps
+   How it works: a winding road, floating phones, animated placeholder icons
+   The finished layout is the default. Animations only apply once how-stage.tsx adds "how-ready"
+   (so reduced-motion visitors, and anyone without JavaScript, simply see the finished layout).
    ===================================================================== */
-   .how-steps {
+   .how-stage {
     --phone-w: min(72vw, 260px);
+    position: relative;
   }
-  /* stacked (phones): a vertical dashed road down the middle */
-  .how-road {
+  
+  /* ---- stacked layout (phones): a straight dashed road behind the phones ---- */
+  .how-road-mobile {
     position: absolute;
     z-index: 0;
     left: 50%;
@@ -324,20 +328,145 @@ html {
     opacity: 0.7;
     pointer-events: none;
   }
+  .how-road-svg {
+    display: none;
+  }
+  
+  /* ---- wide screens: a 976 x 1280 stage with everything placed by hand ---- */
   @media (min-width: 1024px) {
-    .how-steps {
+    .how-stage {
       --phone-w: 250px;
+      width: 976px;
+      height: 1280px;
+      margin-inline: auto;
     }
-    /* side by side: a horizontal road through the middle of the phones, from the first to the last */
-    .how-road {
-      left: 16.67%;
-      right: 16.67%;
-      bottom: auto;
-      width: auto;
-      height: 3px;
-      transform: none;
-      /* half the height of a phone: ((width - 20px bezel) x screen shape + 20px bezel) / 2 */
-      top: calc(((var(--phone-w) - 20px) * 2.168 + 20px) / 2);
-      background: repeating-linear-gradient(to right, #a06b0c 0 14px, transparent 14px 26px);
+    .how-road-mobile {
+      display: none;
     }
+    .how-road-svg {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* each step covers the whole stage; its phone and its text are positioned inside it */
+    .how-step {
+      position: absolute;
+      inset: 0;
+      display: block;
+      pointer-events: none;
+    }
+    .how-phone-pos {
+      position: absolute;
+      left: var(--px);
+      top: var(--py);
+      pointer-events: auto;
+    }
+    .how-text-pos {
+      position: absolute;
+      left: var(--tx);
+      top: var(--ty);
+      width: 280px;
+      pointer-events: auto;
+      text-align: left;
+    }
+    .how-text-pos .how-badge,
+    .how-text-pos .how-body {
+      margin-inline: 0;
+    }
+    .how-text-pos[data-align="right"] {
+      text-align: right;
+    }
+    .how-text-pos[data-align="right"] .how-badge,
+    .how-text-pos[data-align="right"] .how-body {
+      margin-left: auto;
+    }
+  }
+  
+  /* ---- the road: draws itself on, then the gold line keeps travelling ---- */
+  .how-road-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 2.4s cubic-bezier(0.45, 0, 0.25, 1) 0.1s;
+  }
+  .how-ready:not(.how-seen) .how-road-path {
+    stroke-dashoffset: 1;
+  }
+  .how-ready .how-road-dashes {
+    animation: how-march 1.4s linear infinite;
+  }
+  @keyframes how-march {
+    to { stroke-dashoffset: -26; } /* one dash + one gap (14 + 12), so the loop is seamless */
+  }
+  
+  /* ---- the phones: arrive one after another, then float, each with its own tilt ---- */
+  .how-enter,
+  .how-text-enter {
+    transition: opacity 0.8s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition-delay: var(--delay, 0s);
+  }
+  .how-text-enter {
+    transition-delay: calc(var(--delay, 0s) + 0.25s);
+  }
+  .how-ready:not(.how-seen) .how-enter {
+    opacity: 0;
+    transform: translateY(56px);
+  }
+  .how-ready:not(.how-seen) .how-text-enter {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .how-float {
+    transform: rotate(var(--tilt, 0deg));
+  }
+  .how-ready .how-float {
+    animation: how-float 6.5s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+  }
+  @keyframes how-float {
+    0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+    50%      { transform: translateY(-10px) rotate(calc(var(--tilt, 0deg) * 0.55)); }
+  }
+  
+  /* everything that loops pauses while the section is off screen */
+  .how-ready:not(.how-inview) * {
+    animation-play-state: paused;
+  }
+  
+  /* ---- the icons inside the placeholder screens ---- */
+  .ico-ping,
+  .ico-flash {
+    opacity: 0;
+  }
+  .ico-ping,
+  .ico-lens {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .how-ready .ico-pin   { animation: ico-hop 2.4s ease-in-out infinite; }
+  .how-ready .ico-ping  { animation: ico-ping 2.4s ease-out infinite; }
+  .how-ready .ico-route { stroke-dasharray: 3.2 3; animation: ico-dash 1.1s linear infinite; }
+  .how-ready .ico-lens  { animation: ico-lens 3s ease-in-out infinite; }
+  .how-ready .ico-flash { animation: ico-flash 3s ease-in-out infinite; }
+  @keyframes ico-hop {
+    0%, 60%, 100% { transform: translateY(0); }
+    30%           { transform: translateY(-2.4px); }
+  }
+  @keyframes ico-ping {
+    0%, 55% { opacity: 0; transform: scale(0.4); }
+    60%     { opacity: 0.8; transform: scale(0.4); }
+    100%    { opacity: 0; transform: scale(2.6); }
+  }
+  @keyframes ico-dash {
+    to { stroke-dashoffset: -6.2; }
+  }
+  @keyframes ico-lens {
+    0%, 70%, 100% { transform: scale(1); }
+    80%           { transform: scale(1.2); }
+  }
+  @keyframes ico-flash {
+    0%, 74%, 100% { opacity: 0; }
+    80%           { opacity: 1; }
+    88%           { opacity: 0; }
   }
