@@ -38,7 +38,7 @@ const STEPS = [
       icon: <RouteIcon />,
     },
     phone: { x: 619, y: 380 },
-    text: { x: 40, y: 560, align: "right" },
+    text: { x: 270, y: 560, align: "right" },
     tilt: "3deg",
     delay: "0.7s",
   },
