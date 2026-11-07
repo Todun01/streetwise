@@ -254,11 +254,12 @@ html {
   }
   
   /* the "Scroll" hint fades away as soon as the cover starts to move */
+  /* the "Scroll" hint fades once the visitor has actually scrolled (not as the dish loops) */
   .hero-cue {
-    opacity: clamp(0, calc(1.2 - var(--lift) * 3), 1);
+    opacity: clamp(0, calc(1.2 - var(--scrolled) * 6), 1);
   }
 
-  /* =====================================================================
+ /* =====================================================================
    Hero road: a big version of the left strip, behind the scene
    It fills the height of its grid cell: the whole pinned stage on wide screens,
    just the scene block on phones.
@@ -271,6 +272,7 @@ html {
   transform: translateX(-50%);
   width: clamp(150px, 36%, 340px);
   background: #0e1010; /* the same asphalt as the left strip */
+  overflow: hidden; /* the dashes start above the top edge; this hides that part */
   pointer-events: none;
 }
 /* faint lane edges, just inside each side */
@@ -289,10 +291,9 @@ html {
 /* the double gold centre-line */
 .hero-road-line {
   position: absolute;
-  top: 0;
+  top: -70px; /* one dash + gap above the top, so the pattern can slide in */
   bottom: 0;
   width: 8px;
-  background: #a06b0c; /* the same gold as the left strip */
 }
 .hero-road-line:nth-child(1) { left: calc(50% - 13px); }
 .hero-road-line:nth-child(2) { left: calc(50% + 5px); }
@@ -305,6 +306,37 @@ html {
   }
 }
 
+/* =====================================================================
+   The gold dashes on BOTH roads (the left strip and the big road) rush past,
+   exactly like the lines in the loading screen.
+   ===================================================================== */
+.hero-dash {
+  position: absolute;
+  top: -70px;
+  bottom: 0;
+}
+.hero-dash,
+.hero-road-line {
+  background: repeating-linear-gradient(to bottom, #a06b0c 0 40px, transparent 40px 70px);
+  animation: hero-march 2.4s linear infinite;
+  will-change: transform;
+}
+@keyframes hero-march {
+  from { transform: translateY(0); }
+  to { transform: translateY(70px); } /* exactly one dash + one gap, so the loop is seamless */
+}
+/* paused while the hero is off screen */
+.hero-stage:not(.hero-inview) .hero-dash,
+.hero-stage:not(.hero-inview) .hero-road-line {
+  animation-play-state: paused;
+}
+/* reduced motion: the dashes stay where they are */
+@media (prefers-reduced-motion: reduce) {
+  .hero-dash,
+  .hero-road-line {
+    animation: none;
+  }
+}
 /* =====================================================================
    How it works: a winding road, floating phones, animated placeholder icons
    The finished layout is the default. Animations only apply once how-stage.tsx adds "how-ready"
