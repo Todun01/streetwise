@@ -502,3 +502,364 @@ html {
     80%           { opacity: 1; }
     88%           { opacity: 0; }
   }
+
+
+  /* =====================================================================
+   Nearby street: a daytime street scene behind the spot cards
+   The finished, still street is the default. Motion only applies once street-stage.tsx adds
+   "street-ready" (so reduced-motion visitors, and anyone without JavaScript, see a still street).
+   ===================================================================== */
+.street-stage {
+  --road-h: clamp(110px, 11vw, 160px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #3fb0ec 0%, #8ad2f5 55%, #d6f1fc 100%);
+}
+/* blends the sky into the section above it */
+.street-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 90px;
+  background: linear-gradient(to bottom, var(--surface), transparent);
+  z-index: 1;
+  pointer-events: none;
+}
+.street-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- sun, clouds, birds ---- */
+.street-sun {
+  position: absolute;
+  top: 3%;
+  right: 6%;
+  width: clamp(130px, 16vw, 250px);
+  height: auto;
+}
+.street-cloud {
+  position: absolute;
+  left: 0;
+  top: var(--y);
+  width: var(--w);
+  transform: translateX(var(--x0));
+  will-change: transform;
+}
+.street-flock {
+  position: absolute;
+  left: 0;
+  top: var(--y);
+  width: 130px;
+  height: 60px;
+  transform: translateX(var(--x0));
+  will-change: transform;
+}
+.street-flock[data-dir="ltr"] .street-flock-inner {
+  transform: scaleX(-1); /* the birds are drawn facing one way; flip them to fly the other */
+}
+.street-bird {
+  position: absolute;
+  width: 34px;
+  height: auto;
+}
+.street-bird-0 { left: 44px; top: 0; }
+.street-bird-1 { left: 88px; top: 16px; }
+.street-bird-2 { left: 4px; top: 20px; }
+.wing {
+  transform-box: fill-box;
+}
+.wing-l { transform-origin: 100% 100%; }
+.wing-r { transform-origin: 0% 100%; }
+
+/* ---- buildings and road ---- */
+.street-buildings {
+  position: absolute;
+  bottom: var(--road-h);
+  left: 50%;
+  width: max(100%, 1000px); /* on phones, show the middle of the street */
+  height: auto;
+  transform: translateX(-50%);
+}
+.sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.smoke {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.street-road {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--road-h);
+  background: #3b4046;
+  border-top: 14px solid #d2cabb; /* the pavement edge */
+  box-sizing: border-box;
+}
+.street-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  background: repeating-linear-gradient(to right, rgba(246, 239, 223, 0.7) 0 46px, transparent 46px 90px);
+}
+
+/* ---- traffic ---- */
+.veh {
+  position: absolute;
+  left: 0;
+  bottom: 8px;
+  /* full size on a 1440px screen, shrinking with the screen but never below half */
+  width: max(calc(var(--w) * 0.55px), min(calc(var(--w) * 1px), calc(var(--w) * 0.0694vw)));
+  transform: translateX(var(--x0));
+  will-change: transform;
+}
+.veh[data-lane="far"] {
+  bottom: 38%;
+}
+.veh[data-dir="rtl"] .veh-flip {
+  transform: scaleX(-1); /* drawn facing right; flip to drive left */
+}
+.veh .wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---- the cards ---- */
+.spot-card {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+}
+.spot-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 38px 60px -18px rgba(10, 30, 20, 0.7);
+}
+.spot-float {
+  transform: rotate(var(--r, 0deg));
+}
+.spot-scroller {
+  scrollbar-width: none;
+}
+.spot-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- the invitation: an inviting gold button ---- */
+.street-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 2.4rem;
+  border-radius: 9999px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #142a1c;
+  background: linear-gradient(180deg, #fcc844 0%, #f1a410 100%);
+  box-shadow:
+    0 14px 30px -8px rgba(217, 143, 11, 0.75),
+    inset 0 2px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s;
+}
+.street-cta:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow:
+    0 22px 38px -8px rgba(217, 143, 11, 0.85),
+    inset 0 2px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+}
+.street-cta:active {
+  transform: translateY(0) scale(0.99);
+}
+.street-cta:focus-visible {
+  outline: 3px solid #142a1c;
+  outline-offset: 5px;
+}
+/* a ring that keeps spreading outward, like a call */
+.street-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgba(245, 173, 29, 0);
+  pointer-events: none;
+}
+/* a band of light that sweeps across now and then */
+.street-cta-shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.street-cta-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+}
+.cta-arrow {
+  transition: transform 0.25s;
+}
+.street-cta:hover .cta-arrow {
+  transform: translateX(6px);
+}
+
+/* =====================================================================
+   Nearby street: the motion
+   ===================================================================== */
+.street-ready .street-cloud {
+  animation: cloud-drift var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes cloud-drift {
+  from { transform: translateX(-360px); }
+  to { transform: translateX(calc(100vw + 60px)); }
+}
+
+.street-ready .street-flock[data-dir="rtl"] {
+  animation: fly-rtl var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+.street-ready .street-flock[data-dir="ltr"] {
+  animation: fly-ltr var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes fly-ltr {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(calc(100vw + 100px)); }
+}
+@keyframes fly-rtl {
+  from { transform: translateX(calc(100vw + 100px)); }
+  to { transform: translateX(-200px); }
+}
+.street-ready .street-flock-inner {
+  animation: flock-bob 2.6s ease-in-out infinite alternate;
+}
+@keyframes flock-bob {
+  from { translate: 0 -6px; }
+  to { translate: 0 8px; }
+}
+.street-ready .wing-l { animation: flap-l 0.55s ease-in-out infinite alternate; }
+.street-ready .wing-r { animation: flap-r 0.55s ease-in-out infinite alternate; }
+.street-ready .street-bird-1 .wing { animation-delay: -0.2s; }
+.street-ready .street-bird-2 .wing { animation-delay: -0.38s; }
+@keyframes flap-l {
+  from { transform: rotate(20deg); }
+  to { transform: rotate(-32deg); }
+}
+@keyframes flap-r {
+  from { transform: rotate(-20deg); }
+  to { transform: rotate(32deg); }
+}
+
+.street-ready .sway {
+  animation: sway 5s ease-in-out infinite alternate;
+}
+@keyframes sway {
+  from { transform: rotate(-1.6deg); }
+  to { transform: rotate(1.6deg); }
+}
+.street-ready .smoke {
+  animation: smoke 2.6s ease-out infinite;
+}
+.street-ready .smoke-1 { animation-delay: 0.85s; }
+.street-ready .smoke-2 { animation-delay: 1.7s; }
+@keyframes smoke {
+  0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+  20%  { opacity: 0.75; }
+  100% { opacity: 0; transform: translateY(-46px) scale(2.2); }
+}
+
+/* traffic: each vehicle crosses the screen, wheels turning, body bouncing a little */
+.street-ready .veh[data-dir="ltr"] {
+  animation: veh-ltr var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+.street-ready .veh[data-dir="rtl"] {
+  animation: veh-rtl var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes veh-ltr {
+  from { transform: translateX(-360px); }
+  to { transform: translateX(calc(100vw + 40px)); }
+}
+@keyframes veh-rtl {
+  from { transform: translateX(calc(100vw + 40px)); }
+  to { transform: translateX(-360px); }
+}
+.street-ready .veh .wheel {
+  animation: wheel-spin 0.5s linear infinite;
+}
+@keyframes wheel-spin {
+  to { transform: rotate(360deg); }
+}
+.street-ready .veh-body {
+  animation: veh-bob 0.45s ease-in-out infinite alternate;
+}
+@keyframes veh-bob {
+  from { translate: 0 0; }
+  to { translate: 0 -1.5px; }
+}
+
+/* the cards arrive when the section first comes into view, then hover */
+.spot-enter {
+  transition: opacity 0.8s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--delay, 0s);
+}
+.street-ready:not(.street-seen) .spot-enter {
+  opacity: 0;
+  transform: translateY(70px);
+}
+.street-ready .spot-float {
+  animation: spot-float 6s ease-in-out infinite alternate;
+  animation-delay: var(--d, 0s);
+}
+@keyframes spot-float {
+  from { transform: translateY(0) rotate(var(--r, 0deg)); }
+  to { transform: translateY(-12px) rotate(calc(var(--r, 0deg) * 0.4)); }
+}
+
+/* the button: ring and shine */
+.street-ready .street-cta::before {
+  animation: cta-ring 2.4s ease-out infinite;
+}
+@keyframes cta-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 173, 29, 0.6); }
+  70%  { box-shadow: 0 0 0 24px rgba(245, 173, 29, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 173, 29, 0); }
+}
+.street-ready .street-cta-shine::after {
+  animation: cta-shine 4s ease-in-out infinite;
+}
+@keyframes cta-shine {
+  0%, 55% { transform: translateX(0) skewX(-20deg); }
+  100% { transform: translateX(480%) skewX(-20deg); }
+}
+.street-ready .cta-arrow {
+  animation: cta-nudge 1.4s ease-in-out infinite;
+}
+.street-ready .street-cta:hover .cta-arrow {
+  animation: none;
+}
+@keyframes cta-nudge {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 4px 0; }
+}
+
+/* everything that loops pauses while the section is off screen */
+.street-ready:not(.street-inview) * {
+  animation-play-state: paused;
+}
