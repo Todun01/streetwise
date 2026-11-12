@@ -78,7 +78,7 @@ export function NearbySpots() {
             <span>Find spots near me</span>
             <ArrowIcon />
           </Link>
-          <p className="text-sm font-medium text-forest-900">Free to join</p>
+          {/* <p className="text-sm font-medium text-forest-900">Free to join</p> */}
         </div>
       </div>
     </StreetStage>
