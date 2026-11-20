@@ -1,5 +1,7 @@
 @import "tailwindcss";
-
+/* Tailwind's dark: classes now follow the data-theme attribute (set by the switch)
+   instead of the device setting. This one line also covers your logo and the night street's text. */
+   @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 /* ---- Brand palette (sampled from the logo). Usable as bg-gold-500, text-cream-100, etc. ---- */
 @theme {
   --color-gold-400: #fcbc2c;
