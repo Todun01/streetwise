@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { buttonClasses } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const LINKS = [
   { id: "home", href: "/#home", label: "Home" },
@@ -80,7 +81,9 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
+          <ThemeToggle />
         </nav>
+        
         <div className="hidden items-center gap-3 md:flex">
           <Link href="/login" className={buttonClasses("secondary", "min-h-10 py-1.5 text-sm")}>
             Sign in
@@ -88,21 +91,25 @@ export function Navbar() {
           <Link href="/signup" className={buttonClasses("primary", "min-h-10 py-1.5 text-sm")}>
             Get started
           </Link>
+          
         </div>
 
         {/* mobile menu button */}
-        <button
-          type="button"
-          className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-lg md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-            {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
-          </svg>
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle/>
+          <button
+            type="button"
+            className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-lg md:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* mobile menu */}

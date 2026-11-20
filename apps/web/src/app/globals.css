@@ -24,7 +24,7 @@
 
 /* ---- Semantic colors: light mode ---- */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --background: #f6efdf;
   --surface: #fffaf0;
   --foreground: #0b1e14;
@@ -39,20 +39,19 @@
 }
 
 /* ---- Semantic colors: dark mode (the logo's look) ---- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b1e14;
-    --surface: #112519;
-    --foreground: #f6efdf;
-    --muted: #9db0a2;
-    --border: #24402f;
-    --primary: #f5ad1d;
-    --primary-hover: #fcbc2c;
-    --on-primary: #0b1e14;
-    --accent: #f5ad1d;
-    --danger: #f87171;
-    --success: #4ade80;
-  }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0b1e14;
+  --surface: #112519;
+  --foreground: #f6efdf;
+  --muted: #9db0a2;
+  --border: #24402f;
+  --primary: #f5ad1d;
+  --primary-hover: #fcbc2c;
+  --on-primary: #0b1e14;
+  --accent: #f5ad1d;
+  --danger: #f87171;
+  --success: #4ade80;
 }
 
 /* Turns the variables above into Tailwind classes: bg-background, text-muted, bg-primary... */
@@ -530,6 +529,15 @@ html {
   z-index: 1;
   pointer-events: none;
 }
+/* ---- the heading text: it sits on the sky, so it changes together with the sky ---- */
+.street-eyebrow { color: #1d5a3b; }
+.street-title { color: #142a1c; }
+.street-intro { color: #112519; }
+.street-note { color: #142a1c; }
+[data-theme="dark"] .street-eyebrow { color: #f5ad1d; }
+[data-theme="dark"] .street-title { color: #f6efdf; }
+[data-theme="dark"] .street-intro { color: rgba(246, 239, 223, 0.8); }
+[data-theme="dark"] .street-note { color: #f6efdf; }
 .street-scene {
   position: absolute;
   inset: 0;
@@ -867,3 +875,42 @@ html {
 .street-ready:not(.street-inview) * {
   animation-play-state: paused;
 }
+
+/* =====================================================================
+   Nearby street: the night (whenever the theme is dark)
+   ===================================================================== */
+   [data-theme="dark"] .street-stage {
+    background: linear-gradient(to bottom, #060d27 0%, #122049 45%, #2a4078 100%);
+  }
+  [data-theme="dark"] .street-sun,
+  [data-theme="dark"] .street-flock {
+    display: none; /* no sun, and the birds are asleep */
+  }
+  [data-theme="dark"] .street-moon,
+  [data-theme="dark"] .street-stars {
+    display: block;
+  }
+  [data-theme="dark"] .street-cloud {
+    filter: brightness(0.3) saturate(0.55);
+    opacity: 0.9;
+  }
+  [data-theme="dark"] .bld-layer {
+    filter: url(#street-night); /* dims the buildings and pushes them toward blue */
+  }
+  [data-theme="dark"] .bld-night {
+    display: inline;
+  }
+  [data-theme="dark"] .street-road {
+    background: #1f2329;
+    border-top-color: #4d5560;
+  }
+  [data-theme="dark"] .street-lane {
+    background: repeating-linear-gradient(to right, rgba(246, 239, 223, 0.45) 0 46px, transparent 46px 90px);
+  }
+  [data-theme="dark"] .veh-body {
+    filter: brightness(0.55) saturate(0.85);
+  }
+  [data-theme="dark"] .veh-beam,
+  [data-theme="dark"] .veh-tail {
+    display: block;
+  }

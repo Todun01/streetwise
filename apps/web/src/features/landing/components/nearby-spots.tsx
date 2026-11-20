@@ -31,9 +31,9 @@ export function NearbySpots() {
       <div className="relative z-10 mx-auto max-w-6xl px-4 pb-[calc(var(--road-h)+4.5rem)] pt-20 sm:px-6 sm:pt-24">
         {/* this section is always daytime, so its text uses fixed dark colours instead of the page theme */}
         <header className="mb-6 max-w-2xl">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-forest-600">Nearby spots</p>
-          <h2 className="text-3xl font-bold tracking-tight text-forest-900 sm:text-4xl">Hidden gems, a short walk away</h2>
-          <p className="mt-3 text-lg text-forest-800">
+          <p className=" street-eyebrow mb-2 text-sm font-semibold uppercase tracking-wider text-forest-600">Nearby spots</p>
+          <h2 className="street-title text-3xl font-bold tracking-tight text-forest-900 sm:text-4xl">Hidden gems, a short walk away</h2>
+          <p className="street-intro mt-3 text-lg text-forest-800">
             A taste of what&apos;s on Streetwise. Create a free account to see the spots around you.
           </p>
         </header>
@@ -78,7 +78,7 @@ export function NearbySpots() {
             <span>Find spots near me</span>
             <ArrowIcon />
           </Link>
-          {/* <p className="text-sm font-medium text-forest-900">Free to join</p> */}
+          {/* <p className="street-note text-sm font-medium text-forest-900">Free to join</p> */}
         </div>
       </div>
     </StreetStage>

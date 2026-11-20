@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SplashScreen } from "@/components/layout/splash-screen";
 import { QueryProvider } from "@/lib/query-provider";
 import { SPLASH_INIT_SCRIPT } from "@/lib/splash";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -28,6 +29,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // suppressHydrationWarning: the head script adds classes to <html> before React starts
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: SPLASH_INIT_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: SPLASH_INIT_SCRIPT }} />
         <noscript>
           <style>{".splash{display:none}"}</style>

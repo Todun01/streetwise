@@ -1,10 +1,11 @@
 import type { ComponentType, CSSProperties } from "react";
-import { Bird, Cloud, StreetBuildings, Sun } from "@/components/steet/scenery";
+import { Bird, Cloud, Moon, Stars, StreetBuildings, Sun } from "@/components/steet/scenery";
 import { Danfo, Keke, Okada, Suv, Taxi } from "@/components/steet/vehicles";
 
 /**
- * The street behind the "nearby spots" cards: sky, sun, clouds, birds, buildings, and traffic.
+ * The street behind the "nearby spots" cards: sky, sun or moon, clouds, birds, buildings, and traffic.
  * Everything here is decoration (aria-hidden). The motion is in globals.css ("Nearby street").
+ * Day and night are both drawn here; the CSS shows one or the other depending on dark mode.
  *
  * x0 is where each thing stands when it is NOT animating (reduced-motion visitors see a still street).
  * dur is seconds for one trip across the screen; a negative delay starts it part-way across,
@@ -33,25 +34,41 @@ interface Vehicle {
   dur: number;
   delay: number;
   x0: string;
+  /** how far down the vehicle its headlights are (percent), for the night beams */
+  beam: number;
 }
 // the far lane first, so the near lane is drawn in front of it
 const TRAFFIC: Vehicle[] = [
-  // { Art: Taxi, lane: "far", dir: "rtl", w: 136, dur: 24, delay: -6, x0: "70vw" },
-  { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
-  { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
-  { Art: Okada, lane: "far", dir: "rtl", w: 78, dur: 14, delay: -2, x0: "88vw" },
-  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
-  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
-  { Art: Danfo, lane: "near", dir: "ltr", w: 235, dur: 19, delay: -4, x0: "62vw" },
-  { Art: Okada, lane: "near", dir: "ltr", w: 125, dur: 11, delay: -9, x0: "36vw" },
-  { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 17, delay: -15, x0: "8vw" },
-  // { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw" },
+  // { Art: Taxi, lane: "far", dir: "rtl", w: 136, dur: 24, delay: -6, x0: "70vw", beam: 63 },
+  { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw", beam: 64 },
+  { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw", beam: 64 },
+  { Art: Okada, lane: "far", dir: "rtl", w: 78, dur: 14, delay: -2, x0: "88vw", beam: 45 },
+  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw", beam: 59 },
+  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw", beam: 59 },
+  { Art: Danfo, lane: "near", dir: "ltr", w: 235, dur: 19, delay: -4, x0: "62vw", beam: 64 },
+  { Art: Okada, lane: "near", dir: "ltr", w: 125, dur: 11, delay: -9, x0: "36vw", beam: 45 },
+  { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 17, delay: -15, x0: "8vw", beam: 59 },
+  // { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw", beam: 67 },
 ];
-
+// const TRAFFIC: Vehicle[] = [
+//   // { Art: Taxi, lane: "far", dir: "rtl", w: 136, dur: 24, delay: -6, x0: "70vw" },
+//   { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
+//   { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
+//   { Art: Okada, lane: "far", dir: "rtl", w: 78, dur: 14, delay: -2, x0: "88vw" },
+//   { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
+//   { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
+//   { Art: Danfo, lane: "near", dir: "ltr", w: 235, dur: 19, delay: -4, x0: "62vw" },
+//   { Art: Okada, lane: "near", dir: "ltr", w: 125, dur: 11, delay: -9, x0: "36vw" },
+//   { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 17, delay: -15, x0: "8vw" },
+//   // { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw" },
+// ];
 export function StreetScene() {
   return (
     <div aria-hidden="true" className="street-scene">
+      {/* by day: the sun. At night (dark mode) it is swapped for the moon and stars, by the CSS */}
       <Sun className="street-sun" />
+      <Stars className="street-stars" />
+      <Moon className="street-moon" />
 
       {CLOUDS.map((c, i) => (
         <div
@@ -88,12 +105,15 @@ export function StreetScene() {
             className="veh"
             data-lane={t.lane}
             data-dir={t.dir}
-            style={css({ "--w": `${t.w}`, "--dur": `${t.dur}s`, "--delay": `${t.delay}s`, "--x0": t.x0 })}
+            style={css({ "--w": `${t.w}`, "--dur": `${t.dur}s`, "--delay": `${t.delay}s`, "--x0": t.x0, "--beam-y": `${t.beam}%` })}
           >
             <div className="veh-flip">
               <div className="veh-body">
                 <t.Art className="block h-auto w-full" />
               </div>
+              {/* headlight beam and tail light: only drawn at night */}
+              <span className="veh-beam" />
+              <span className="veh-tail" />
             </div>
           </div>
         ))}
