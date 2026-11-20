@@ -321,9 +321,9 @@ export function NightLights() {
   return (
     <>
       {/* a few lit windows on the far towers */}
-      {FAR.map(([x, w, h]) => (
+      {/* {FAR.map(([x, w, h]) => (
         <rect key={x} x={x} y={400 - h} width={w} height={h} fill="url(#street-win-lit)" />
-      ))}
+      ))} */}
 
       {SHOPS.map((b, si) => (
         <g key={b.x}>
