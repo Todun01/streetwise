@@ -282,10 +282,10 @@ export function BuildingsBody() {
       <rect x="826" y="48" width="6" height="42" fill="#3b4651" />
 
       {/* palms stand on the pavement, in front of the shops */}
-      <Palm x={70} h={215} s={1.05} />
+      {/* <Palm x={70} h={215} s={1.05} />
       <Palm x={540} h={240} s={1.1} />
       <Palm x={930} h={230} s={1.05} />
-      <Palm x={1372} h={220} s={1} />
+      <Palm x={1372} h={220} s={1} /> */}
 
       {LAMPS.map((x) => (
         <Lamp key={x} x={x} />

@@ -36,13 +36,15 @@ interface Vehicle {
 }
 // the far lane first, so the near lane is drawn in front of it
 const TRAFFIC: Vehicle[] = [
-  { Art: Taxi, lane: "far", dir: "rtl", w: 136, dur: 24, delay: -6, x0: "70vw" },
+  // { Art: Taxi, lane: "far", dir: "rtl", w: 136, dur: 24, delay: -6, x0: "70vw" },
+  { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
   { Art: Danfo, lane: "far", dir: "rtl", w: 144, dur: 30, delay: -18, x0: "40vw" },
   { Art: Okada, lane: "far", dir: "rtl", w: 78, dur: 14, delay: -2, x0: "88vw" },
-  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 28, delay: -11, x0: "12vw" },
+  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
+  { Art: Suv, lane: "far", dir: "rtl", w: 129, dur: 23, delay: -11, x0: "12vw" },
   { Art: Danfo, lane: "near", dir: "ltr", w: 235, dur: 19, delay: -4, x0: "62vw" },
   { Art: Okada, lane: "near", dir: "ltr", w: 125, dur: 11, delay: -9, x0: "36vw" },
-  { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 22, delay: -15, x0: "8vw" },
+  { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 17, delay: -15, x0: "8vw" },
   // { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw" },
 ];
 
