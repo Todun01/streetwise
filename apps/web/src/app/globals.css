@@ -510,7 +510,9 @@ html {
    "street-ready" (so reduced-motion visitors, and anyone without JavaScript, see a still street).
    ===================================================================== */
 .street-stage {
-  --road-h: clamp(110px, 11vw, 160px);
+  --road-h: clamp(96px, 8.5vw, 124px);
+  --lane-near: 24px;                     /* how far up the front lane's vehicles sit */
+  --lane-far: 52%; 
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -622,7 +624,7 @@ html {
   will-change: transform;
 }
 .veh[data-lane="far"] {
-  bottom: 38%;
+  bottom: 58%;
 }
 .veh[data-dir="rtl"] .veh-flip {
   transform: scaleX(-1); /* drawn facing right; flip to drive left */

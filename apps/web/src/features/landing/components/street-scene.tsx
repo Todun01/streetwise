@@ -43,7 +43,7 @@ const TRAFFIC: Vehicle[] = [
   { Art: Danfo, lane: "near", dir: "ltr", w: 235, dur: 19, delay: -4, x0: "62vw" },
   { Art: Okada, lane: "near", dir: "ltr", w: 125, dur: 11, delay: -9, x0: "36vw" },
   { Art: Suv, lane: "near", dir: "ltr", w: 205, dur: 22, delay: -15, x0: "8vw" },
-  { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw" },
+  // { Art: Keke, lane: "near", dir: "ltr", w: 145, dur: 26, delay: -22, x0: "84vw" },
 ];
 
 export function StreetScene() {

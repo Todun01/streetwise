@@ -129,13 +129,13 @@ interface Shop {
 // the shopfronts along the road
 const SHOPS: Shop[] = [
   { x: 0, w: 170, h: 250, wall: "#e8a35a", sign: { text: "CHEMIST", bg: "#1e9b55", fg: "#ffffff" }, awning: ["#ffffff", "#1e9b55"] },
-  { x: 170, w: 150, h: 300, wall: "#3b8fb0", sign: { text: "PHONES", bg: "#142a1c", fg: "#f5ad1d" }, awning: ["#f4e9d4", "#d9784a"] },
-  { x: 320, w: 190, h: 232, wall: "#f4e9d4", sign: { text: "SUYA", bg: "#142a1c", fg: "#f5ad1d" }, awning: ["#ffffff", "#e4572e"] },
+  { x: 170, w: 150, h: 300, wall: "#3b8fb0", sign: { text: "BREAD", bg: "#142a1c", fg: "#f5ad1d" }, awning: ["#f4e9d4", "#d9784a"] },
+  { x: 320, w: 190, h: 232, wall: "#f4e9d4", sign: { text: "PASTRIES", bg: "#142a1c", fg: "#f5ad1d" }, awning: ["#ffffff", "#e4572e"] },
   { x: 510, w: 160, h: 282, wall: "#c8553d", sign: { text: "JUICE", bg: "#f5ad1d", fg: "#142a1c" }, awning: ["#ffffff", "#f5ad1d"] },
   { x: 670, w: 230, h: 322, wall: "#2a9d8f", sign: { text: "BUKA", bg: "#f4e9d4", fg: "#c8553d" }, awning: ["#ffffff", "#c8553d"] },
-  { x: 900, w: 170, h: 242, wall: "#f0b429", sign: { text: "BAKERY", bg: "#7a4a2a", fg: "#ffffff" }, awning: ["#ffffff", "#7a4a2a"] },
-  { x: 1070, w: 190, h: 292, wall: "#d9784a", sign: { text: "TAILOR", bg: "#26343f", fg: "#ffffff" }, awning: ["#f4e9d4", "#26343f"] },
-  { x: 1260, w: 180, h: 262, wall: "#7aa6d6", sign: { text: "MARKET", bg: "#1e9b55", fg: "#ffffff" }, awning: ["#ffffff", "#e4572e"] },
+  { x: 900, w: 170, h: 242, wall: "#f0b429", sign: { text: "AKARA", bg: "#7a4a2a", fg: "#ffffff" }, awning: ["#ffffff", "#7a4a2a"] },
+  { x: 1070, w: 190, h: 292, wall: "#d9784a", sign: { text: "FRUITS", bg: "#26343f", fg: "#ffffff" }, awning: ["#f4e9d4", "#26343f"] },
+  { x: 1260, w: 180, h: 262, wall: "#7aa6d6", sign: { text: "SUYA", bg: "#1e9b55", fg: "#ffffff" }, awning: ["#ffffff", "#e4572e"] },
 ];
 
 const LAMPS = [290, 880, 1165];
