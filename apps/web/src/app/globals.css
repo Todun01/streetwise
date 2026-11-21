@@ -553,6 +553,13 @@ html {
   width: clamp(130px, 16vw, 250px);
   height: auto;
 }
+.street-moon {
+  position: absolute;
+  top: 3%;
+  right: 6%;
+  width: clamp(130px, 16vw, 250px);
+  height: auto;
+}
 .street-cloud {
   position: absolute;
   left: 0;
@@ -916,6 +923,10 @@ html {
   [data-theme="dark"] .street-moon,
   [data-theme="dark"] .street-stars {
     display: block;
+  }
+  [data-theme="light"] .street-stars,
+  [data-theme="light"] .street-moon {
+    display: none;
   }
   [data-theme="dark"] .street-cloud {
     filter: brightness(0.3) saturate(0.55);
