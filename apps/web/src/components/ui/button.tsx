@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type Variant = "primary" | "secondary" | "danger" | "onDark";
+type Variant = "primary" | "secondary" | "danger" | "onDark" | "outline";
 
 const styles: Record<Variant, string> = {
   primary: "bg-primary text-on-primary hover:bg-primary-hover disabled:opacity-50",
@@ -8,6 +8,8 @@ const styles: Record<Variant, string> = {
   danger: "bg-danger text-background hover:opacity-90 disabled:opacity-50",
     // for use on the always-dark hero
   onDark: "border border-cream-100/40 text-cream-100 hover:border-gold-500 hover:text-gold-500 disabled:opacity-50",
+    // for the hero: an outline that works on the light page and on the dark one
+    outline: "border border-forest-900/30 text-forest-900 hover:border-forest-900 hover:bg-forest-900/5 dark:border-cream-100/40 dark:text-cream-100 dark:hover:border-gold-500 dark:hover:bg-transparent dark:hover:text-gold-500 disabled:opacity-50",
 };
 
 /** The look of a button, usable on <button> AND on <Link>. */

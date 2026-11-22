@@ -127,7 +127,7 @@ export function HeroStage({ children }: { children: ReactNode }) {
     <section
       ref={trackRef}
       id="home"
-      className="hero-stage relative isolate overflow-clip bg-forest-900 text-cream-100 lg:h-[185vh]"
+      className="hero-stage relative isolate overflow-clip bg-background text-foreground dark:bg-forest-900 dark:text-cream-100 lg:h-[185vh]"
     >
       {/* the road from the logo: asphalt with a double gold centre-line, its dashes rushing past */}
       {/* <div aria-hidden="true" className="absolute inset-y-0 left-0 w-10 overflow-hidden bg-asphalt sm:w-16 lg:w-24">
@@ -140,14 +140,14 @@ export function HeroStage({ children }: { children: ReactNode }) {
         {/* soft light behind the scene (transparent at the edges, so the road shows through) */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-[radial-gradient(55%_60%_at_74%_48%,#22432f_0%,rgba(20,42,28,0)_72%)]"
+          className="absolute inset-0 -z-10 dark:bg-[radial-gradient(55%_60%_at_74%_48%,#22432f_0%,rgba(20,42,28,0)_72%)]"
         />
 
         <div className="grid h-full lg:grid-cols-2">{children}</div>
 
         <p
           aria-hidden="true"
-          className="hero-cue pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 text-sm tracking-widest text-cream-200 uppercase lg:block"
+          className="hero-cue pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 text-sm tracking-widest text-forest-800/70 uppercase dark:text-cream-200 lg:block"
         >
           Scroll
         </p>

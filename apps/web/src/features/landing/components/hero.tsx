@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { buttonClasses } from "@/components/ui/button";
-import { LogoOnDark } from "@/components/ui/logo";
+import { Logo } from "@/components/ui/logo";
 import { HeroScene } from "@/features/landing/components/hero-scene";
 import { HeroStage } from "@/features/landing/components/hero-stage";
 import { HeroRoad } from "@/features/landing/components/hero-road";
@@ -15,10 +15,10 @@ export function Hero() {
       {/* left half: logo, description, buttons */}
       <div className="flex flex-col justify-center gap-8 px-6 pb-4 pl-16 pt-12 sm:pl-24 lg:gap-12 lg:py-0 lg:pl-40 lg:pr-12">
         <h1>
-          <LogoOnDark className="h-15 w-auto sm:h-17 lg:h-17" />
+          <Logo className="h-15 w-auto sm:h-17 lg:h-17" />
         </h1>
 
-        <p className="max-w-xl text-base text-cream-200 sm:text-2xl">
+        <p className="max-w-xl text-base text-forest-800 dark:text-cream-200 sm:text-2xl">
           Discover street food spots that aren&apos;t on any map. Walk there, eat well, and earn real
           money for the ones you find.
         </p>
@@ -27,7 +27,7 @@ export function Hero() {
           <Link href="/signup" className={buttonClasses("primary")}>
             Get started
           </Link>
-          <Link href="/#how-it-works" className={buttonClasses("onDark")}>
+          <Link href="/#how-it-works" className={buttonClasses("outline")}>
             See how it works
           </Link>
         </div>
