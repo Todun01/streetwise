@@ -14,7 +14,7 @@ export function Contact() {
       id="contact"
       eyebrow="Contact"
       title="Questions or ideas? Talk to us."
-      intro="Spot suggestions, feedback, or partnership ideas. We'd love to hear from you."
+      intro="Suggestions, feedback, or partnership ideas. We'd love to hear from you."
       className="border-t border-border bg-surface"
     >
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
